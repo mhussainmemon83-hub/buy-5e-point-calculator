@@ -43,7 +43,6 @@ function getRemainingPoints() {
 function canIncrease(ability) {
     const currentScore = abilities[ability];
     if (currentScore >= 15) return false;
-    
     const nextCost = POINT_COSTS[currentScore + 1] - POINT_COSTS[currentScore];
     return getRemainingPoints() >= nextCost;
 }
@@ -83,7 +82,6 @@ function updateRemainingPoints() {
     
     pointsElement.textContent = remainingPoints;
     
-    // Add visual feedback for negative points
     if (remainingPoints < 0) {
         counterElement.classList.add('negative');
     } else {
@@ -99,23 +97,23 @@ function updateAllDisplays() {
     updateRemainingPoints();
 }
 
-// Increase ability score
+// Logic functions
 function increaseAbility(ability) {
     if (canIncrease(ability)) {
         abilities[ability]++;
         updateAllDisplays();
+        highlightChanges(ability);
     }
 }
 
-// Decrease ability score
 function decreaseAbility(ability) {
     if (canDecrease(ability)) {
         abilities[ability]--;
         updateAllDisplays();
+        highlightChanges(ability);
     }
 }
 
-// Reset all abilities to 8
 function resetAll() {
     abilities = {
         strength: 8,
@@ -128,47 +126,13 @@ function resetAll() {
     updateAllDisplays();
 }
 
-// Apply random build
 function randomBuild() {
     const randomIndex = Math.floor(Math.random() * RANDOM_BUILDS.length);
     abilities = { ...RANDOM_BUILDS[randomIndex] };
     updateAllDisplays();
 }
 
-// Initialize the calculator when page loads
-document.addEventListener('DOMContentLoaded', function() {
-    updateAllDisplays();
-    
-    // Add keyboard support for ability inputs
-    document.querySelectorAll('.ability-input').forEach(input => {
-        input.addEventListener('keydown', function(e) {
-            e.preventDefault(); // Prevent manual input
-        });
-    });
-    
-    // Add hover effects and animations
-    document.querySelectorAll('.ability-row').forEach(row => {
-        row.addEventListener('mouseenter', function() {
-            this.style.transform = 'translateX(5px)';
-        });
-        
-        row.addEventListener('mouseleave', function() {
-            this.style.transform = 'translateX(0)';
-        });
-    });
-    
-    // Add click animations to buttons
-    document.querySelectorAll('button').forEach(button => {
-        button.addEventListener('click', function() {
-            this.style.transform = 'scale(0.95)';
-            setTimeout(() => {
-                this.style.transform = '';
-            }, 150);
-        });
-    });
-});
-
-// Add some utility functions for better UX
+// Visual feedback
 function highlightChanges(ability) {
     const row = document.querySelector(`[data-ability="${ability}"]`);
     row.style.backgroundColor = 'rgba(255, 107, 53, 0.2)';
@@ -177,39 +141,7 @@ function highlightChanges(ability) {
     }, 300);
 }
 
-// Enhanced increase/decrease functions with visual feedback
-const originalIncrease = increaseAbility;
-const originalDecrease = decreaseAbility;
-
-increaseAbility = function(ability) {
-    const couldIncrease = canIncrease(ability);
-    originalIncrease(ability);
-    if (couldIncrease) {
-        highlightChanges(ability);
-    }
-};
-
-decreaseAbility = function(ability) {
-    const couldDecrease = canDecrease(ability);
-    originalDecrease(ability);
-    if (couldDecrease) {
-        highlightChanges(ability);
-    }
-};
-
-// Add keyboard shortcuts
-document.addEventListener('keydown', function(e) {
-    if (e.key === 'r' && e.ctrlKey) {
-        e.preventDefault();
-        resetAll();
-    }
-    if (e.key === 'Enter' && e.shiftKey) {
-        e.preventDefault();
-        randomBuild();
-    }
-});
-
-// Add tooltips for better user experience
+// Tooltips
 function addTooltips() {
     const tooltips = {
         'strength': 'Physical power, affects melee attacks and carrying capacity',
@@ -227,5 +159,58 @@ function addTooltips() {
     });
 }
 
-// Initialize tooltips when page loads
-document.addEventListener('DOMContentLoaded', addTooltips);
+// Initialize the calculator when page loads
+document.addEventListener('DOMContentLoaded', function() {
+    updateAllDisplays();
+    addTooltips();
+
+    // Disable manual input
+    document.querySelectorAll('.ability-input').forEach(input => {
+        input.addEventListener('keydown', e => e.preventDefault());
+    });
+
+    // Hover effects
+    document.querySelectorAll('.ability-row').forEach(row => {
+        row.addEventListener('mouseenter', () => row.style.transform = 'translateX(5px)');
+        row.addEventListener('mouseleave', () => row.style.transform = 'translateX(0)');
+    });
+
+    // Click animation
+    document.querySelectorAll('button').forEach(button => {
+        button.addEventListener('click', function() {
+            this.style.transform = 'scale(0.95)';
+            setTimeout(() => { this.style.transform = ''; }, 150);
+        });
+    });
+
+    // Attach ability buttons
+    document.querySelectorAll('.btn-increase').forEach(button => {
+        button.addEventListener('click', function() {
+            const ability = this.closest('.ability-row').dataset.ability;
+            increaseAbility(ability);
+        });
+    });
+
+    document.querySelectorAll('.btn-decrease').forEach(button => {
+        button.addEventListener('click', function() {
+            const ability = this.closest('.ability-row').dataset.ability;
+            decreaseAbility(ability);
+        });
+    });
+
+    // Control buttons
+    document.getElementById('resetBtn').addEventListener('click', resetAll);
+    document.getElementById('randomBtn').addEventListener('click', randomBuild);
+});
+
+// Keyboard shortcuts
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'r' && e.ctrlKey) {
+        e.preventDefault();
+        resetAll();
+    }
+    if (e.key === 'Enter' && e.shiftKey) {
+        e.preventDefault();
+        randomBuild();
+    }
+});
