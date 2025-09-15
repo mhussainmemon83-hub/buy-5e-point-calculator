@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>D&D 5e Point Buy Calculator - Character Creation Tool</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Free D&D 5e Point Buy Calculator for character creation. Calculate ability scores with the official 27-point system. Includes modifiers, costs, and character optimization tips.">
+    <meta name="keywords" content="D&D 5e point buy calculator, dungeons and dragons character creator, ability score calculator, DND point buy system, 5th edition character builder">
+    <meta name="author" content="D&D Tools">
+    <meta name="robots" content="index, follow">
+    
+    <!-- Open Graph Tags -->
+    <meta property="og:title" content="D&D 5e Point Buy Calculator - Character Creation Tool">
+    <meta property="og:description" content="Free D&D 5e Point Buy Calculator for character creation. Calculate ability scores with the official 27-point system.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://your-domain.com">
+    
+    <!-- Twitter Card Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="D&D 5e Point Buy Calculator">
+    <meta name="twitter:description" content="Free D&D 5e Point Buy Calculator for character creation. Calculate ability scores with the official 27-point system.">
+    
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "D&D 5e Point Buy Calculator",
+        "description": "A free online calculator for D&D 5th Edition point buy character creation system",
+        "applicationCategory": "GameApplication",
+        "operatingSystem": "Web Browser",
+        "offers": {
+            "@type": "Offer",
+            "price": "0"
+        }
+    }
+    </script>
+    
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <h1 class="header-title">D&D 5e Point Buy Calculator</h1>
+            <p class="header-subtitle">Official 27-Point Character Creation System</p>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main">
+        <div class="container">
+            <div class="calculator-grid">
+                <!-- Calculator Section -->
+                <div class="calculator-section">
+                    <!-- Points Display -->
+                    <div class="points-display">
+                        <h2>Points Remaining</h2>
+                        <div class="points-counter">
+                            <span id="remainingPoints">27</span>
+                            <span class="points-total"> / 27</span>
+                        </div>
+                    </div>
+
+                    <!-- Ability Scores -->
+                    <div class="abilities-container">
+                        <div class="ability-row" data-ability="strength">
+                            <label class="ability-label">Strength (STR)</label>
+                            <div class="ability-controls">
+                                <button class="btn-decrease" onclick="decreaseAbility('strength')">-</button>
+                                <input type="number" class="ability-input" value="8" readonly>
+                                <button class="btn-increase" onclick="increaseAbility('strength')">+</button>
+                                <span class="modifier">+0</span>
+                                <span class="cost">0 pts</span>
+                            </div>
+                        </div>
+
+                        <div class="ability-row" data-ability="dexterity">
+                            <label class="ability-label">Dexterity (DEX)</label>
+                            <div class="ability-controls">
+                                <button class="btn-decrease" onclick="decreaseAbility('dexterity')">-</button>
+                                <input type="number" class="ability-input" value="8" readonly>
+                                <button class="btn-increase" onclick="increaseAbility('dexterity')">+</button>
+                                <span class="modifier">+0</span>
+                                <span class="cost">0 pts</span>
+                            </div>
+                        </div>
+
+                        <div class="ability-row" data-ability="constitution">
+                            <label class="ability-label">Constitution (CON)</label>
+                            <div class="ability-controls">
+                                <button class="btn-decrease" onclick="decreaseAbility('constitution')">-</button>
+                                <input type="number" class="ability-input" value="8" readonly>
+                                <button class="btn-increase" onclick="increaseAbility('constitution')">+</button>
+                                <span class="modifier">+0</span>
+                                <span class="cost">0 pts</span>
+                            </div>
+                        </div>
+
+                        <div class="ability-row" data-ability="intelligence">
+                            <label class="ability-label">Intelligence (INT)</label>
+                            <div class="ability-controls">
+                                <button class="btn-decrease" onclick="decreaseAbility('intelligence')">-</button>
+                                <input type="number" class="ability-input" value="8" readonly>
+                                <button class="btn-increase" onclick="increaseAbility('intelligence')">+</button>
+                                <span class="modifier">+0</span>
+                                <span class="cost">0 pts</span>
+                            </div>
+                        </div>
+
+                        <div class="ability-row" data-ability="wisdom">
+                            <label class="ability-label">Wisdom (WIS)</label>
+                            <div class="ability-controls">
+                                <button class="btn-decrease" onclick="decreaseAbility('wisdom')">-</button>
+                                <input type="number" class="ability-input" value="8" readonly>
+                                <button class="btn-increase" onclick="increaseAbility('wisdom')">+</button>
+                                <span class="modifier">+0</span>
+                                <span class="cost">0 pts</span>
+                            </div>
+                        </div>
+
+                        <div class="ability-row" data-ability="charisma">
+                            <label class="ability-label">Charisma (CHA)</label>
+                            <div class="ability-controls">
+                                <button class="btn-decrease" onclick="decreaseAbility('charisma')">-</button>
+                                <input type="number" class="ability-input" value="8" readonly>
+                                <button class="btn-increase" onclick="increaseAbility('charisma')">+</button>
+                                <span class="modifier">+0</span>
+                                <span class="cost">0 pts</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="action-buttons">
+                        <button class="btn-reset" onclick="resetAll()">Reset All</button>
+                        <button class="btn-random" onclick="randomBuild()">Random Build</button>
+                    </div>
+                </div>
+
+                <!-- Cost Table -->
+                <div class="cost-table-section">
+                    <h3>Point Costs</h3>
+                    <table class="cost-table">
+                        <thead>
+                            <tr>
+                                <th>Score</th>
+                                <th>Cost</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>8</td><td>0</td></tr>
+                            <tr><td>9</td><td>1</td></tr>
+                            <tr><td>10</td><td>2</td></tr>
+                            <tr><td>11</td><td>3</td></tr>
+                            <tr><td>12</td><td>4</td></tr>
+                            <tr><td>13</td><td>5</td></tr>
+                            <tr><td>14</td><td>7</td></tr>
+                            <tr><td>15</td><td>9</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Content Section -->
+    <section class="content-section">
+        <div class="container">
+            <article class="content-article">
+                <h2>Understanding the D&D 5e Point Buy System</h2>
+                
+                <p>The point buy system in Dungeons & Dragons 5th Edition provides a balanced method for creating character ability scores. This official character creation method ensures fair and consistent results while allowing players to customize their characters according to their preferred playstyle.</p>
+
+                <h3>How Point Buy Works in D&D 5e</h3>
+                <p>Every character begins with a score of 8 in each of the six core abilities: Strength, Dexterity, Constitution, Intelligence, Wisdom, and Charisma. Players receive 27 points to distribute among these abilities, with costs increasing for higher scores. The maximum ability score achievable through point buy is 15, before applying racial bonuses.</p>
+
+                <h3>Point Buy Cost Structure</h3>
+                <p>The cost progression encourages balanced character builds rather than extreme specialization. Scores from 8 to 13 cost their value minus 8 in points, while scores of 14 and 15 require additional investment. This system prevents players from creating characters with extremely high scores in one area at the expense of being completely ineffective in others.</p>
+
+                <h3>Strategic Character Building</h3>
+                <p>Effective use of the point buy calculator involves understanding your chosen class requirements and campaign expectations. Combat-focused classes typically prioritize physical attributes, while spellcasters benefit from mental ability scores. Consider your character concept and party composition when allocating points.</p>
+
+                <h3>Racial Bonuses and Final Scores</h3>
+                <p>Remember that racial ability score improvements apply after point buy allocation. Most races provide bonuses ranging from +1 to +2 in specific abilities. Planning your point distribution with these bonuses in mind allows for optimal character optimization within the system constraints.</p>
+
+                <h3>Advantages Over Other Generation Methods</h3>
+                <p>Point buy offers several advantages over random rolling or standard array methods. It provides predictable results, ensures character viability, and allows precise customization. This method eliminates the frustration of poor dice rolls while maintaining meaningful choices in character development.</p>
+
+                <h3>Common Point Buy Strategies</h3>
+                <p>Many players adopt specific allocation patterns based on character archetypes. The focused build emphasizes one or two primary abilities, while the balanced approach maintains competency across multiple areas. Consider your campaign style and character role when choosing your strategy.</p>
+
+                <h3>Calculator Features and Benefits</h3>
+                <p>This point buy calculator automatically handles cost calculations, modifier determination, and constraint enforcement. The real-time updates help visualize the impact of each allocation decision, while the cost reference table provides transparency in the system mechanics.</p>
+
+                <h3>Troubleshooting Common Issues</h3>
+                <p>New players often struggle with point allocation priorities or exceeding the 27-point limit. Focus on your class primary abilities first, ensure Constitution receives adequate investment for survivability, and remember that racial bonuses can supplement lower point buy investments in secondary abilities.</p>
+            </article>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 D&D 5e Point Buy Calculator. All rights reserved. | Dungeons & Dragons is a trademark of Wizards of the Coast.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
