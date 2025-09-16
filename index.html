@@ -1,213 +1,198 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>D&D 5e Point Buy Calculator - Character Creation Tool</title>
-    
-    <!-- SEO Meta Tags -->
-    <meta name="description" content="Free D&D 5e Point Buy Calculator for character creation. Calculate ability scores with the official 27-point system. Includes modifiers, costs, and character optimization tips.">
-    <meta name="keywords" content="D&D 5e point buy calculator, dungeons and dragons character creator, ability score calculator, DND point buy system, 5th edition character builder">
-    <meta name="author" content="D&D Tools">
-    <meta name="robots" content="index, follow">
-    
-    <!-- Open Graph Tags -->
-    <meta property="og:title" content="D&D 5e Point Buy Calculator - Character Creation Tool">
-    <meta property="og:description" content="Free D&D 5e Point Buy Calculator for character creation. Calculate ability scores with the official 27-point system.">
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://your-domain.com">
-    
-    <!-- Twitter Card Tags -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="D&D 5e Point Buy Calculator">
-    <meta name="twitter:description" content="Free D&D 5e Point Buy Calculator for character creation. Calculate ability scores with the official 27-point system.">
-    
-    <!-- Structured Data -->
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "WebApplication",
-        "name": "D&D 5e Point Buy Calculator",
-        "description": "A free online calculator for D&D 5th Edition point buy character creation system",
-        "applicationCategory": "GameApplication",
-        "operatingSystem": "Web Browser",
-        "offers": {
-            "@type": "Offer",
-            "price": "0"
-        }
-    }
-    </script>
-    
-    <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>D&D 5e Point Buy Calculator - Character Creation Tool</title>
+
+  <!-- SEO Meta Tags -->
+  <meta name="description" content="Free D&D 5e Point Buy Calculator for character creation. Calculate ability scores with the official 27-point system. Includes modifiers, costs, and character optimization tips.">
+  <meta name="keywords" content="D&D 5e point buy calculator, dungeons and dragons character creator, ability score calculator, DND point buy system, 5th edition character builder">
+  <meta name="author" content="D&D Tools">
+
+  <!-- CSS Embedded -->
+  <style>
+    body { font-family: Arial, sans-serif; margin:0; padding:0; background:#f9fafb; }
+    .container { max-width:1000px; margin:auto; padding:20px; }
+    .header { text-align:center; background:#1f2937; color:white; padding:20px; }
+    .header-title { margin:0; font-size:28px; }
+    .header-subtitle { margin:5px 0 0; font-size:16px; color:#d1d5db; }
+    .calculator-grid { display:flex; flex-wrap:wrap; gap:20px; margin-top:20px; }
+    .calculator-section, .cost-table-section { flex:1; min-width:300px; background:#fff; padding:20px; border-radius:8px; box-shadow:0 2px 6px rgba(0,0,0,.1); }
+    .points-display { text-align:center; margin-bottom:20px; }
+    .points-counter { font-size:24px; font-weight:bold; }
+    .abilities-container { display:flex; flex-direction:column; gap:10px; }
+    .ability-row { display:flex; justify-content:space-between; align-items:center; padding:10px; border:1px solid #e5e7eb; border-radius:6px; background:#f3f4f6; }
+    .ability-label { font-weight:bold; width:140px; }
+    .ability-controls { display:flex; align-items:center; gap:8px; }
+    .ability-input { width:40px; text-align:center; border:1px solid #d1d5db; border-radius:4px; background:white; font-weight:bold; }
+    button { padding:4px 8px; border:none; border-radius:4px; cursor:pointer; font-weight:bold; }
+    .btn-increase { background:#10b981; color:white; }
+    .btn-decrease { background:#ef4444; color:white; }
+    .btn-reset { background:#3b82f6; color:white; margin-right:10px; }
+    .btn-random { background:#f59e0b; color:white; }
+    .action-buttons { margin-top:20px; text-align:center; }
+    table { width:100%; border-collapse:collapse; margin-top:10px; }
+    th, td { border:1px solid #e5e7eb; padding:8px; text-align:center; }
+    th { background:#f3f4f6; }
+    .footer { text-align:center; padding:15px; margin-top:30px; background:#111827; color:white; font-size:14px; }
+  </style>
 </head>
 <body>
-    <!-- Header -->
-    <header class="header">
-        <div class="container">
-            <h1 class="header-title">D&D 5e Point Buy Calculator</h1>
-            <p class="header-subtitle">Official 27-Point Character Creation System</p>
-        </div>
-    </header>
+  <!-- Header -->
+  <header class="header">
+    <div class="container">
+      <h1 class="header-title">D&D 5e Point Buy Calculator</h1>
+      <p class="header-subtitle">Official 27-Point Character Creation System</p>
+    </div>
+  </header>
 
-    <!-- Main Content -->
-    <main class="main">
-        <div class="container">
-            <div class="calculator-grid">
-                <!-- Calculator Section -->
-                <div class="calculator-section">
-                    <!-- Points Display -->
-                    <div class="points-display">
-                        <h2>Points Remaining</h2>
-                        <div class="points-counter">
-                            <span id="remainingPoints">27</span>
-                            <span class="points-total"> / 27</span>
-                        </div>
-                    </div>
+  <!-- Main Content -->
+  <main class="main">
+    <div class="container">
+      <div class="calculator-grid">
+        <!-- Calculator Section -->
+        <div class="calculator-section">
+          <div class="points-display">
+            <h2>Points Remaining</h2>
+            <div class="points-counter"><span id="remainingPoints">27</span> / 27</div>
+          </div>
 
-                    <!-- Ability Scores -->
-                    <div class="abilities-container">
-                        <div class="ability-row" data-ability="strength">
-                            <label class="ability-label">Strength (STR)</label>
-                            <div class="ability-controls">
-                                <button class="btn-decrease" onclick="decreaseAbility('strength')">-</button>
-                                <input type="number" class="ability-input" value="8" readonly>
-                                <button class="btn-increase" onclick="increaseAbility('strength')">+</button>
-                                <span class="modifier">+0</span>
-                                <span class="cost">0 pts</span>
-                            </div>
-                        </div>
-
-                        <div class="ability-row" data-ability="dexterity">
-                            <label class="ability-label">Dexterity (DEX)</label>
-                            <div class="ability-controls">
-                                <button class="btn-decrease" onclick="decreaseAbility('dexterity')">-</button>
-                                <input type="number" class="ability-input" value="8" readonly>
-                                <button class="btn-increase" onclick="increaseAbility('dexterity')">+</button>
-                                <span class="modifier">+0</span>
-                                <span class="cost">0 pts</span>
-                            </div>
-                        </div>
-
-                        <div class="ability-row" data-ability="constitution">
-                            <label class="ability-label">Constitution (CON)</label>
-                            <div class="ability-controls">
-                                <button class="btn-decrease" onclick="decreaseAbility('constitution')">-</button>
-                                <input type="number" class="ability-input" value="8" readonly>
-                                <button class="btn-increase" onclick="increaseAbility('constitution')">+</button>
-                                <span class="modifier">+0</span>
-                                <span class="cost">0 pts</span>
-                            </div>
-                        </div>
-
-                        <div class="ability-row" data-ability="intelligence">
-                            <label class="ability-label">Intelligence (INT)</label>
-                            <div class="ability-controls">
-                                <button class="btn-decrease" onclick="decreaseAbility('intelligence')">-</button>
-                                <input type="number" class="ability-input" value="8" readonly>
-                                <button class="btn-increase" onclick="increaseAbility('intelligence')">+</button>
-                                <span class="modifier">+0</span>
-                                <span class="cost">0 pts</span>
-                            </div>
-                        </div>
-
-                        <div class="ability-row" data-ability="wisdom">
-                            <label class="ability-label">Wisdom (WIS)</label>
-                            <div class="ability-controls">
-                                <button class="btn-decrease" onclick="decreaseAbility('wisdom')">-</button>
-                                <input type="number" class="ability-input" value="8" readonly>
-                                <button class="btn-increase" onclick="increaseAbility('wisdom')">+</button>
-                                <span class="modifier">+0</span>
-                                <span class="cost">0 pts</span>
-                            </div>
-                        </div>
-
-                        <div class="ability-row" data-ability="charisma">
-                            <label class="ability-label">Charisma (CHA)</label>
-                            <div class="ability-controls">
-                                <button class="btn-decrease" onclick="decreaseAbility('charisma')">-</button>
-                                <input type="number" class="ability-input" value="8" readonly>
-                                <button class="btn-increase" onclick="increaseAbility('charisma')">+</button>
-                                <span class="modifier">+0</span>
-                                <span class="cost">0 pts</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Action Buttons -->
-                    <div class="action-buttons">
-                        <button class="btn-reset" onclick="resetAll()">Reset All</button>
-                        <button class="btn-random" onclick="randomBuild()">Random Build</button>
-                    </div>
-                </div>
-
-                <!-- Cost Table -->
-                <div class="cost-table-section">
-                    <h3>Point Costs</h3>
-                    <table class="cost-table">
-                        <thead>
-                            <tr>
-                                <th>Score</th>
-                                <th>Cost</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr><td>8</td><td>0</td></tr>
-                            <tr><td>9</td><td>1</td></tr>
-                            <tr><td>10</td><td>2</td></tr>
-                            <tr><td>11</td><td>3</td></tr>
-                            <tr><td>12</td><td>4</td></tr>
-                            <tr><td>13</td><td>5</td></tr>
-                            <tr><td>14</td><td>7</td></tr>
-                            <tr><td>15</td><td>9</td></tr>
-                        </tbody>
-                    </table>
-                </div>
+          <!-- Abilities -->
+          <div class="abilities-container">
+            <div class="ability-row" data-ability="strength">
+              <label class="ability-label">Strength (STR)</label>
+              <div class="ability-controls">
+                <button class="btn-decrease" onclick="decreaseAbility('strength')">-</button>
+                <input type="number" class="ability-input" value="8" readonly>
+                <button class="btn-increase" onclick="increaseAbility('strength')">+</button>
+                <span class="modifier">+0</span>
+                <span class="cost">0 pts</span>
+              </div>
             </div>
+
+            <div class="ability-row" data-ability="dexterity">
+              <label class="ability-label">Dexterity (DEX)</label>
+              <div class="ability-controls">
+                <button class="btn-decrease" onclick="decreaseAbility('dexterity')">-</button>
+                <input type="number" class="ability-input" value="8" readonly>
+                <button class="btn-increase" onclick="increaseAbility('dexterity')">+</button>
+                <span class="modifier">+0</span>
+                <span class="cost">0 pts</span>
+              </div>
+            </div>
+
+            <div class="ability-row" data-ability="constitution">
+              <label class="ability-label">Constitution (CON)</label>
+              <div class="ability-controls">
+                <button class="btn-decrease" onclick="decreaseAbility('constitution')">-</button>
+                <input type="number" class="ability-input" value="8" readonly>
+                <button class="btn-increase" onclick="increaseAbility('constitution')">+</button>
+                <span class="modifier">+0</span>
+                <span class="cost">0 pts</span>
+              </div>
+            </div>
+
+            <div class="ability-row" data-ability="intelligence">
+              <label class="ability-label">Intelligence (INT)</label>
+              <div class="ability-controls">
+                <button class="btn-decrease" onclick="decreaseAbility('intelligence')">-</button>
+                <input type="number" class="ability-input" value="8" readonly>
+                <button class="btn-increase" onclick="increaseAbility('intelligence')">+</button>
+                <span class="modifier">+0</span>
+                <span class="cost">0 pts</span>
+              </div>
+            </div>
+
+            <div class="ability-row" data-ability="wisdom">
+              <label class="ability-label">Wisdom (WIS)</label>
+              <div class="ability-controls">
+                <button class="btn-decrease" onclick="decreaseAbility('wisdom')">-</button>
+                <input type="number" class="ability-input" value="8" readonly>
+                <button class="btn-increase" onclick="increaseAbility('wisdom')">+</button>
+                <span class="modifier">+0</span>
+                <span class="cost">0 pts</span>
+              </div>
+            </div>
+
+            <div class="ability-row" data-ability="charisma">
+              <label class="ability-label">Charisma (CHA)</label>
+              <div class="ability-controls">
+                <button class="btn-decrease" onclick="decreaseAbility('charisma')">-</button>
+                <input type="number" class="ability-input" value="8" readonly>
+                <button class="btn-increase" onclick="increaseAbility('charisma')">+</button>
+                <span class="modifier">+0</span>
+                <span class="cost">0 pts</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Action Buttons -->
+          <div class="action-buttons">
+            <button class="btn-reset" onclick="resetAll()">Reset All</button>
+            <button class="btn-random" onclick="randomBuild()">Random Build</button>
+          </div>
         </div>
-    </main>
 
-    <!-- Content Section -->
-    <section class="content-section">
-        <div class="container">
-            <article class="content-article">
-                <h2>Understanding the D&D 5e Point Buy System</h2>
-                
-                <p>The point buy system in Dungeons & Dragons 5th Edition provides a balanced method for creating character ability scores. This official character creation method ensures fair and consistent results while allowing players to customize their characters according to their preferred playstyle.</p>
-
-                <h3>How Point Buy Works in D&D 5e</h3>
-                <p>Every character begins with a score of 8 in each of the six core abilities: Strength, Dexterity, Constitution, Intelligence, Wisdom, and Charisma. Players receive 27 points to distribute among these abilities, with costs increasing for higher scores. The maximum ability score achievable through point buy is 15, before applying racial bonuses.</p>
-
-                <h3>Point Buy Cost Structure</h3>
-                <p>The cost progression encourages balanced character builds rather than extreme specialization. Scores from 8 to 13 cost their value minus 8 in points, while scores of 14 and 15 require additional investment. This system prevents players from creating characters with extremely high scores in one area at the expense of being completely ineffective in others.</p>
-
-                <h3>Strategic Character Building</h3>
-                <p>Effective use of the point buy calculator involves understanding your chosen class requirements and campaign expectations. Combat-focused classes typically prioritize physical attributes, while spellcasters benefit from mental ability scores. Consider your character concept and party composition when allocating points.</p>
-
-                <h3>Racial Bonuses and Final Scores</h3>
-                <p>Remember that racial ability score improvements apply after point buy allocation. Most races provide bonuses ranging from +1 to +2 in specific abilities. Planning your point distribution with these bonuses in mind allows for optimal character optimization within the system constraints.</p>
-
-                <h3>Advantages Over Other Generation Methods</h3>
-                <p>Point buy offers several advantages over random rolling or standard array methods. It provides predictable results, ensures character viability, and allows precise customization. This method eliminates the frustration of poor dice rolls while maintaining meaningful choices in character development.</p>
-
-                <h3>Common Point Buy Strategies</h3>
-                <p>Many players adopt specific allocation patterns based on character archetypes. The focused build emphasizes one or two primary abilities, while the balanced approach maintains competency across multiple areas. Consider your campaign style and character role when choosing your strategy.</p>
-
-                <h3>Calculator Features and Benefits</h3>
-                <p>This point buy calculator automatically handles cost calculations, modifier determination, and constraint enforcement. The real-time updates help visualize the impact of each allocation decision, while the cost reference table provides transparency in the system mechanics.</p>
-
-                <h3>Troubleshooting Common Issues</h3>
-                <p>New players often struggle with point allocation priorities or exceeding the 27-point limit. Focus on your class primary abilities first, ensure Constitution receives adequate investment for survivability, and remember that racial bonuses can supplement lower point buy investments in secondary abilities.</p>
-            </article>
+        <!-- Cost Table -->
+        <div class="cost-table-section">
+          <h3>Point Costs</h3>
+          <table class="cost-table">
+            <tr><th>Score</th><th>Cost</th></tr>
+            <tr><td>8</td><td>0</td></tr>
+            <tr><td>9</td><td>1</td></tr>
+            <tr><td>10</td><td>2</td></tr>
+            <tr><td>11</td><td>3</td></tr>
+            <tr><td>12</td><td>4</td></tr>
+            <tr><td>13</td><td>5</td></tr>
+            <tr><td>14</td><td>7</td></tr>
+            <tr><td>15</td><td>9</td></tr>
+          </table>
         </div>
-    </section>
+      </div>
+    </div>
+  </main>
 
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <p>&copy; 2024 D&D 5e Point Buy Calculator. All rights reserved. | Dungeons & Dragons is a trademark of Wizards of the Coast.</p>
-        </div>
-    </footer>
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <p>&copy; 2024 D&D 5e Point Buy Calculator. All rights reserved.</p>
+    </div>
+  </footer>
 
-    <script src="/script.js"></script>
+  <!-- JavaScript Embedded -->
+  <script>
+    const POINT_COSTS = {8:0,9:1,10:2,11:3,12:4,13:5,14:7,15:9};
+    const TOTAL_POINTS = 27;
+    let abilities = {strength:8,dexterity:8,constitution:8,intelligence:8,wisdom:8,charisma:8};
+
+    function getModifier(score){ return Math.floor((score-10)/2); }
+    function getRemainingPoints(){
+      let used=0; Object.values(abilities).forEach(v=>used+=POINT_COSTS[v]); 
+      return TOTAL_POINTS-used;
+    }
+    function updateAbilityDisplay(ability){
+      const row=document.querySelector(`[data-ability="${ability}"]`);
+      const input=row.querySelector('.ability-input');
+      const mod=row.querySelector('.modifier');
+      const cost=row.querySelector('.cost');
+      const score=abilities[ability];
+      input.value=score;
+      mod.textContent=getModifier(score)>=0?`+${getModifier(score)}`:getModifier(score);
+      cost.textContent=`${POINT_COSTS[score]} pts`;
+    }
+    function updateAllDisplays(){
+      Object.keys(abilities).forEach(a=>updateAbilityDisplay(a));
+      document.getElementById('remainingPoints').textContent=getRemainingPoints();
+    }
+    function canIncrease(a){let s=abilities[a]; if(s>=15)return false; let next=POINT_COSTS[s+1]-POINT_COSTS[s]; return getRemainingPoints()>=next;}
+    function canDecrease(a){return abilities[a]>8;}
+    function increaseAbility(a){ if(canIncrease(a)){ abilities[a]++; updateAllDisplays(); } }
+    function decreaseAbility(a){ if(canDecrease(a)){ abilities[a]--; updateAllDisplays(); } }
+    function resetAll(){ abilities={strength:8,dexterity:8,constitution:8,intelligence:8,wisdom:8,charisma:8}; updateAllDisplays(); }
+    function randomBuild(){ const builds=[{strength:12,dexterity:12,constitution:12,intelligence:12,wisdom:12,charisma:11},{strength:15,dexterity:13,constitution:14,intelligence:8,wisdom:10,charisma:10}]; abilities={...builds[Math.floor(Math.random()*builds.length)]}; updateAllDisplays(); }
+
+    document.addEventListener('DOMContentLoaded',updateAllDisplays);
+  </script>
 </body>
 </html>
