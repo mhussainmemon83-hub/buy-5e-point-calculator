@@ -1,5 +1,3 @@
-# robots.txt for 5e Point Buy Calculator
-
 User-agent: *
 Allow: /
 Disallow: /api/
