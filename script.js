@@ -39,4 +39,74 @@ function updateAllDisplays() {
         input.value = abilities[ability];
         mod.textContent = getModifier(abilities[ability]) >= 0 
             ? `+${getModifier(abilities[ability])}` 
-            : getModifier(abilities[abilit]()
+            : getModifier(abilities[ability]);
+
+        cost.textContent = `${costTable[abilities[ability]]} pts`;
+    }
+
+    document.getElementById("remainingPoints").textContent = remainingPoints;
+}
+
+// Ability increase
+function increaseAbility(ability) {
+    let current = abilities[ability];
+    if (current >= 15) return;
+
+    let cost = costTable[current + 1] - costTable[current];
+    if (remainingPoints - cost < 0) return;
+
+    abilities[ability]++;
+    remainingPoints -= cost;
+    updateAllDisplays();
+}
+
+// Ability decrease
+function decreaseAbility(ability) {
+    let current = abilities[ability];
+    if (current <= 8) return;
+
+    let refund = costTable[current] - costTable[current - 1];
+    abilities[ability]--;
+    remainingPoints += refund;
+    updateAllDisplays();
+}
+
+// Reset sab kuch
+function resetAll() {
+    for (let ability in abilities) {
+        abilities[ability] = 8;
+    }
+    remainingPoints = 27;
+    updateAllDisplays();
+}
+
+// Random build
+function randomBuild() {
+    resetAll();
+    let abilitiesList = Object.keys(abilities);
+
+    while (remainingPoints > 0) {
+        let rand = abilitiesList[Math.floor(Math.random() * abilitiesList.length)];
+        let cost = costTable[abilities[rand] + 1] - costTable[abilities[rand]];
+        if (abilities[rand] < 15 && remainingPoints - cost >= 0) {
+            abilities[rand]++;
+            remainingPoints -= cost;
+        } else if (abilities.every(a => abilities[a] >= 15)) {
+            break;
+        }
+    }
+    updateAllDisplays();
+}
+
+// Page load hone ke baad init
+document.addEventListener("DOMContentLoaded", () => {
+    updateAllDisplays();
+});
+
+// Functions ko global banaya (HTML ke onclick ke liye)
+window.increaseAbility = increaseAbility;
+window.decreaseAbility = decreaseAbility;
+window.resetAll = resetAll;
+window.randomBuild = randomBuild;
+
+console.log("script.js loaded ✅");
