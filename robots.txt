@@ -1,0 +1,9 @@
+# robots.txt for 5e Point Buy Calculator
+
+User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /admin/
+Disallow: /server/
+
+Sitemap: https://buy-5e-point-calculator.vercel.app/sitemap.xml
